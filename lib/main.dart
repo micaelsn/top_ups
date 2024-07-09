@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:top_ups/features/home/presentation/pages/mobile_recharge_page.dart';
+import 'package:top_ups/features/home/presentation/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MobileRechargePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
