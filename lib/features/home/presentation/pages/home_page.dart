@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/features/home/data/dto/beneficiary_dto.dart';
+import 'package:top_ups/features/home/domain/entities/beneficiary_entity.dart';
 
+import '../widgets/beneficiary_widget.dart';
 import '../widgets/tab_view_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,12 +15,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final listBeneficiaries = [
+    BeneficiaryDTO(id: '1', name: 'Amit Pahandit', phone: '+9193933939229'),
+    BeneficiaryDTO(id: '2', name: 'Kumar Suresh', phone: '+909303039393'),
+    BeneficiaryDTO(id: '3', name: 'Amit Kumar', phone: '+939494949222'),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[100],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,13 +43,60 @@ class _HomePageState extends State<HomePage> {
           TabViewWidget(
             tabs: [
               TabItem(
-                  action: () {}, title: 'Recharge', widget: const SizedBox()),
+                  action: () {},
+                  title: 'Recharge',
+                  widget: ListContentWidget(
+                    listBeneficiaries: listBeneficiaries,
+                  )),
               TabItem(
-                  action: () {}, title: 'History', widget: const SizedBox()),
+                  action: () {},
+                  title: 'History',
+                  widget: ListContentWidget(
+                    listBeneficiaries: listBeneficiaries,
+                  )),
             ],
           )
         ],
       ),
+    );
+  }
+}
+
+class ListContentWidget extends StatelessWidget {
+  const ListContentWidget({super.key, required this.listBeneficiaries});
+  final List<BeneficiaryEntity> listBeneficiaries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 130,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: listBeneficiaries.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final benefiary = listBeneficiaries[index];
+              return Container(
+                margin: index == 0
+                    ? const EdgeInsets.only(
+                        left: 10,
+                        right: 5.0,
+                        top: 5.0,
+                        bottom: 5.0,
+                      )
+                    : const EdgeInsets.all(5.0),
+                height: 160,
+                child: BeneficiaryWidget(
+                  beneficiary: benefiary,
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
