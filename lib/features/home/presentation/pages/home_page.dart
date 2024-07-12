@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/core/module/module_navigator.dart';
 import 'package:top_ups/features/home/data/dto/beneficiary_dto.dart';
 import 'package:top_ups/features/home/domain/entities/beneficiary_entity.dart';
 
+import '../../../flutter_router_manager.dart';
 import '../widgets/beneficiary_widget.dart';
 import '../widgets/tab_view_widget.dart';
 
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     BeneficiaryDTO(id: '1', name: 'Amit Pahandit', phone: '+9193933939229'),
     BeneficiaryDTO(id: '2', name: 'Kumar Suresh', phone: '+909303039393'),
     BeneficiaryDTO(id: '3', name: 'Amit Kumar', phone: '+939494949222'),
+    BeneficiaryDTO(id: '4', name: 'Micael Nascimento', phone: '+939494949222'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -68,17 +71,18 @@ class ListContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width * .4;
     return Column(
       children: [
         const SizedBox(height: 10),
         SizedBox(
-          height: 130,
+          height: 140,
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: listBeneficiaries.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              final benefiary = listBeneficiaries[index];
+              final beneficiary = listBeneficiaries[index];
               return Container(
                 margin: index == 0
                     ? const EdgeInsets.only(
@@ -90,7 +94,12 @@ class ListContentWidget extends StatelessWidget {
                     : const EdgeInsets.all(5.0),
                 height: 160,
                 child: BeneficiaryWidget(
-                  beneficiary: benefiary,
+                  width: width - 10,
+                  onPressed: () {
+                    ModuleNavigator().push(context, ModuleRoutes.addBeneficiary,
+                        arg: beneficiary.id);
+                  },
+                  beneficiary: beneficiary,
                 ),
               );
             },

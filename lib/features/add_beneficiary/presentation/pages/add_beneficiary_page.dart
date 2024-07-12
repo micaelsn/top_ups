@@ -10,6 +10,14 @@ class AddBeneficiaryPage extends StatefulWidget {
 class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[100],
+      ),
+      body: const Center(
+        child: Text('AddBeneficiaryPage'),
+      ),
+    );
   }
 }
