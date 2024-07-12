@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:top_ups/features/home/presentation/pages/home_page.dart';
 
+import 'features/flutter_router_manager.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,7 +19,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      onGenerateRoute: FlutterRouteManager.generateRoute,
+      initialRoute: ModuleRoutes.home,
     );
   }
 }
