@@ -4,7 +4,9 @@ import 'package:top_ups/features/home/data/dto/beneficiary_dto.dart';
 import 'package:top_ups/features/home/domain/entities/beneficiary_entity.dart';
 
 import '../../../flutter_router_manager.dart';
+import '../../data/dto/top_up_dto.dart';
 import '../widgets/beneficiary_widget.dart';
+import '../widgets/recharge_dialog_widget.dart';
 import '../widgets/tab_view_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,14 +63,28 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () => ModuleNavigator().push(
+                context,
+                ModuleRoutes.addBeneficiary,
+              )),
     );
   }
 }
 
 class ListContentWidget extends StatelessWidget {
-  const ListContentWidget({super.key, required this.listBeneficiaries});
+  ListContentWidget({super.key, required this.listBeneficiaries});
   final List<BeneficiaryEntity> listBeneficiaries;
-
+  final topups = [
+    TopUpDTO(currency: 'AED', value: 5),
+    TopUpDTO(currency: 'AED', value: 10),
+    TopUpDTO(currency: 'AED', value: 20),
+    TopUpDTO(currency: 'AED', value: 30),
+    TopUpDTO(currency: 'AED', value: 50),
+    TopUpDTO(currency: 'AED', value: 75),
+    TopUpDTO(currency: 'AED', value: 100),
+  ];
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * .4;
@@ -96,8 +112,12 @@ class ListContentWidget extends StatelessWidget {
                 child: BeneficiaryWidget(
                   width: width - 10,
                   onPressed: () {
-                    ModuleNavigator().push(context, ModuleRoutes.addBeneficiary,
-                        arg: beneficiary.id);
+                    showDialog(
+                        context: context,
+                        builder: (_) => RechargeDialogWidget(
+                              topups: topups,
+                              onTap: () {},
+                            ));
                   },
                   beneficiary: beneficiary,
                 ),
