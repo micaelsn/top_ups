@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/features/recharge_mobile/presentation/pages/recharge_mobile_page.dart';
 
 import 'add_beneficiary/presentation/pages/add_beneficiary_page.dart';
 import 'home/presentation/pages/home_page.dart';
 
 class ModuleRoutes {
   static const String home = '/';
+  static const String rechargeMobile = '/recharge_mobile';
   static const String addBeneficiary = '/add_beneficiary';
 }
 
@@ -13,6 +15,8 @@ class FlutterRouteManager {
     switch (settings.name) {
       case ModuleRoutes.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
+      case ModuleRoutes.rechargeMobile:
+        return MaterialPageRoute(builder: (_) => const RechargeMobilePage());
       case ModuleRoutes.addBeneficiary:
         return MaterialPageRoute(builder: (_) => const AddBeneficiaryPage());
       default:
