@@ -12,15 +12,15 @@ class Injection {
   final GetIt _getIt = GetIt.instance;
 
   void registerSingleton<T extends Object>(T instance) {
-    if (_getIt.isRegistered(instance: instance)) {
-      _getIt.unregister(instance: instance);
+    if (_getIt.isRegistered<T>(instance: instance)) {
+      _getIt.unregister<T>(instance: instance);
     }
     _getIt.registerSingleton<T>(instance);
   }
 
   void registerFactory<T extends Object>(T Function() factoryFunc) {
-    if (_getIt.isRegistered(instance: factoryFunc)) {
-      _getIt.unregister(instance: factoryFunc);
+    if (_getIt.isRegistered<T>(instance: factoryFunc)) {
+      _getIt.unregister<T>(instance: factoryFunc);
     }
     _getIt.registerFactory<T>(factoryFunc);
   }
