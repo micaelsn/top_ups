@@ -17,7 +17,7 @@ class ApiGetBeneficiariesRepository implements GetBeneficiariesRepository {
   Future<BeneficiaryResult> call() async {
     try {
       final response = await dataSource();
-      final result = (response?['list'] as List)
+      final result = (response?['data'] as List)
           .map((item) => BeneficiaryDTO.fromMap(item))
           .toList();
       return BeneficiaryResult.right(result);
