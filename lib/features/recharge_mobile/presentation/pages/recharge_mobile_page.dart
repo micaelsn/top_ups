@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:top_ups/core/module/module_navigator.dart';
 
 import '../../../flutter_router_manager.dart';
-import '../../data/dto/beneficiary_dto.dart';
 import '../../data/dto/top_up_dto.dart';
 import '../../domain/entities/beneficiary_entity.dart';
+import '../controllers/recharge_mobile_controller.dart';
 import '../widgets/beneficiary_widget.dart';
 import '../widgets/recharge_dialog_widget.dart';
 import '../widgets/tab_view_widget.dart';
@@ -19,12 +19,7 @@ class RechargeMobilePage extends StatefulWidget {
 }
 
 class _RechargeMobilePageState extends State<RechargeMobilePage> {
-  final listBeneficiaries = [
-    BeneficiaryDTO(id: '1', name: 'Amit Pahandit', phone: '+9193933939229'),
-    BeneficiaryDTO(id: '2', name: 'Kumar Suresh', phone: '+909303039393'),
-    BeneficiaryDTO(id: '3', name: 'Amit Kumar', phone: '+939494949222'),
-    BeneficiaryDTO(id: '4', name: 'Micael Nascimento', phone: '+939494949222'),
-  ];
+  final controller = RechargeMobileController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,13 +46,13 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
                   action: () {},
                   title: 'Recharge',
                   widget: ListContentWidget(
-                    listBeneficiaries: listBeneficiaries,
+                    listBeneficiaries: controller.beneficiaries,
                   )),
               TabItem(
                   action: () {},
                   title: 'History',
                   widget: ListContentWidget(
-                    listBeneficiaries: listBeneficiaries,
+                    listBeneficiaries: controller.beneficiaries,
                   )),
             ],
           )
