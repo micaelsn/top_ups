@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'core/injection/app_injection.dart';
 import 'features/flutter_router_manager.dart';
 
 void main() {
+  appInjection();
   runApp(const MyApp());
 }
 

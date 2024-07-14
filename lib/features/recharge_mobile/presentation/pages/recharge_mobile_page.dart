@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/core/injection/injection.dart';
 import 'package:top_ups/core/module/module_navigator.dart';
 
 import '../../../flutter_router_manager.dart';
 import '../../data/dto/top_up_dto.dart';
 import '../../domain/entities/beneficiary_entity.dart';
+import '../../recharge_mobile.dart';
 import '../controllers/recharge_mobile_controller.dart';
 import '../widgets/beneficiary_widget.dart';
 import '../widgets/recharge_dialog_widget.dart';
@@ -19,7 +21,14 @@ class RechargeMobilePage extends StatefulWidget {
 }
 
 class _RechargeMobilePageState extends State<RechargeMobilePage> {
-  final controller = RechargeMobileController();
+  late RechargeMobileController controller;
+  @override
+  void initState() {
+    rechargeMobileInjection();
+    controller = Injection().get<RechargeMobileController>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
