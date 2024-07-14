@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/localstorage.dart';
+// import '../../../../core/database/localstorage.dart';
 
 class AddBeneficiaryController {
-  final LocalStorage localStorage;
+  // final LocalStorage localStorage;
 
-  AddBeneficiaryController({required this.localStorage});
+  // AddBeneficiaryController({required this.localStorage});
 
   static const int maxNickNameLength = 20;
   static const int maxPhoneLength = 11;
@@ -21,9 +21,8 @@ class AddBeneficiaryController {
 
   sendValidate({String? name, String? phone}) {
     if (name != null) {
-      nameError.value = name.isNotEmpty && name.length < maxNickNameLength
-          ? errorMessage
-          : null;
+      nameError.value =
+          name.isEmpty && name.length < maxNickNameLength ? errorMessage : null;
     }
     if (phone != null) {
       phoneError.value =
@@ -38,10 +37,10 @@ class AddBeneficiaryController {
       phone: phoneController.text,
     );
     if (fieldsIsValid) {
-      await localStorage.insert('beneficiaries', {
-        'name': nameController.text,
-        'phone': phoneController.text,
-      });
+      // await localStorage.insert('beneficiaries', {
+      //   'name': nameController.text,
+      //   'phone': phoneController.text,
+      // });
       isSending.value = false;
       return true;
     }

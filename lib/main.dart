@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'features/add_beneficiary/add_beneficiary.dart';
 import 'features/recharge_mobile/recharge_mobile.dart';
 
 import 'core/injection/app_injection.dart';
@@ -8,6 +9,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   appInjection();
   rechargeMobileInjection();
+  addBeneficiaryInjection();
   runApp(const MyApp());
 }
 

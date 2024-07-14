@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/core/injection/injection.dart';
+
+import '../controllers/add_beneficiary_controller.dart';
+import '../widgets/button_widget.dart';
+import '../widgets/form_field_widget.dart';
 
 class AddBeneficiaryPage extends StatefulWidget {
   const AddBeneficiaryPage({super.key});
@@ -8,16 +13,88 @@ class AddBeneficiaryPage extends StatefulWidget {
 }
 
 class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
+  late AddBeneficiaryController controller;
+  @override
+  void initState() {
+    controller = Injection().get<AddBeneficiaryController>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        title: const Text("Add Beneficiary"),
       ),
-      body: const Center(
-        child: Text('AddBeneficiaryPage'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ValueListenableBuilder<String?>(
+              valueListenable: controller.nameError,
+              builder: (_, value, w) {
+                return FormFieldWidget(
+                  hint: 'Name',
+                  label: 'Name',
+                  controller: controller.nameController,
+                  errorText: value,
+                  onChanged: (text) => controller.sendValidate(name: text),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            ValueListenableBuilder<String?>(
+              valueListenable: controller.phoneError,
+              builder: (_, value, w) {
+                return FormFieldWidget(
+                  hint: 'Phone',
+                  label: 'Phone',
+                  controller: controller.phoneController,
+                  errorText: value,
+                  onChanged: (text) => controller.sendValidate(phone: text),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ValueListenableBuilder<bool>(
+            valueListenable: controller.isSending,
+            builder: (_, value, w) {
+              return ButtonWidget(
+                title: "Add",
+                isLoading: value,
+                onPressed: () async {
+                  final result = await controller.send();
+
+                  if (result) {
+                    dialog(controller.nameController.text);
+                  }
+                },
+              );
+            }),
       ),
     );
+  }
+
+  dialog(String name) {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text("Added $name"),
+            actions: [
+              ButtonWidget(
+                  isLoading: false,
+                  title: 'Close',
+                  onPressed: () => {
+                        Navigator.of(context).pop(),
+                        Navigator.of(ctx).pop(),
+                      })
+            ],
+          );
+        });
   }
 }
