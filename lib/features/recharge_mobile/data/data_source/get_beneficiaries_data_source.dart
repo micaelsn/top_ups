@@ -12,6 +12,7 @@ class ApiGetBeneficiariesDataSource implements GetBeneficiariesDataSource {
 
   @override
   Future<Map<String, dynamic>?> call() async {
+    await Future.delayed(const Duration(seconds: 2));
     final response = await apiClient.request('/endpoint', mock: {
       'data': [
         {'id': '1', 'name': 'Amit Pahandit', 'phone': '+9193933939229'},

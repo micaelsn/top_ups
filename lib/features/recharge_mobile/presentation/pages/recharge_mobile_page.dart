@@ -5,8 +5,8 @@ import 'package:top_ups/core/module/module_navigator.dart';
 import '../../../flutter_router_manager.dart';
 import '../../data/dto/top_up_dto.dart';
 import '../../domain/entities/beneficiary_entity.dart';
-import '../../recharge_mobile.dart';
 import '../controllers/recharge_mobile_controller.dart';
+import '../controllers/recharge_mobile_state.dart';
 import '../widgets/beneficiary_widget.dart';
 import '../widgets/recharge_dialog_widget.dart';
 import '../widgets/tab_view_widget.dart';
@@ -24,9 +24,9 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
   late RechargeMobileController controller;
   @override
   void initState() {
-    rechargeMobileInjection();
     controller = Injection().get<RechargeMobileController>();
     super.initState();
+    controller.init();
   }
 
   @override
@@ -36,43 +36,67 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[100],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text(
-              'Mobile Recharge',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 22,
-                  color: Colors.blueGrey),
-            ),
-          ),
-          TabViewWidget(
-            tabs: [
-              TabItem(
-                  action: () {},
-                  title: 'Recharge',
-                  widget: ListContentWidget(
-                    listBeneficiaries: controller.beneficiaries,
-                  )),
-              TabItem(
-                  action: () {},
-                  title: 'History',
-                  widget: ListContentWidget(
-                    listBeneficiaries: controller.beneficiaries,
-                  )),
-            ],
-          )
-        ],
-      ),
+      body: ValueListenableBuilder(
+          valueListenable: controller,
+          builder: (_, state, ___) => switch (state) {
+                RechargeMobileStateInitial() => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                RechargeMobileStateError() => const Center(
+                    child: Text('Ops, try again later...'),
+                  ),
+                RechargeMobileStateSuccess(:final beneficiaries) =>
+                  _ContentWidget(
+                    beneficiaries: beneficiaries,
+                  ),
+                _ => const SizedBox()
+              }),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () => ModuleNavigator().push(
                 context,
                 ModuleRoutes.addBeneficiary,
               )),
+    );
+  }
+}
+
+class _ContentWidget extends StatelessWidget {
+  const _ContentWidget({required this.beneficiaries});
+  final List<BeneficiaryEntity> beneficiaries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Text(
+            'Mobile Recharge',
+            style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 22,
+                color: Colors.blueGrey),
+          ),
+        ),
+        TabViewWidget(
+          tabs: [
+            TabItem(
+                action: () {},
+                title: 'Recharge',
+                widget: ListContentWidget(
+                  listBeneficiaries: beneficiaries,
+                )),
+            TabItem(
+                action: () {},
+                title: 'History',
+                widget: ListContentWidget(
+                  listBeneficiaries: beneficiaries,
+                )),
+          ],
+        ),
+      ],
     );
   }
 }
