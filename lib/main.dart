@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'features/add_beneficiary/add_beneficiary.dart';
 import 'features/recharge_mobile/recharge_mobile.dart';
 
-import 'core/injection/app_injection.dart';
+import 'features/app/app.dart';
 import 'features/flutter_router_manager.dart';
 
 void main() {
