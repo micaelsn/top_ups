@@ -14,18 +14,20 @@ void rechargeMobileInjection() {
 }
 
 void _dataSources() {
-  Injection().registerFactory(() =>
+  Injection().registerFactory<GetBeneficiariesDataSource>(() =>
       ApiGetBeneficiariesDataSource(apiClient: Injection().get<ApiClient>()));
 }
 
 void _repositories() {
-  Injection().registerFactory(() => ApiGetBeneficiariesRepository(
-      dataSource: Injection().get<GetBeneficiariesDataSource>()));
+  Injection().registerFactory<GetBeneficiariesRepository>(() =>
+      ApiGetBeneficiariesRepository(
+          dataSource: Injection().get<GetBeneficiariesDataSource>()));
 }
 
 void _usecases() {
-  Injection().registerFactory(() => GetBeneficiariesUsecase(
-      repository: Injection().get<GetBeneficiariesRepository>()));
+  Injection().registerFactory<BeneficiariesUsecase>(() =>
+      GetBeneficiariesUsecase(
+          repository: Injection().get<GetBeneficiariesRepository>()));
 }
 
 void _controllers() {

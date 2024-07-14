@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'features/recharge_mobile/recharge_mobile.dart';
 
 import 'core/injection/app_injection.dart';
 import 'features/flutter_router_manager.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   appInjection();
+  rechargeMobileInjection();
   runApp(const MyApp());
 }
 

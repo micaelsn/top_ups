@@ -6,5 +6,5 @@ void appInjection() {
 }
 
 void apiInjection() {
-  Injection().registerSingleton(TopUpsApiClient(baseUrl: 'baseUrl'));
+  Injection().registerSingleton<ApiClient>(TopUpsApiClient(baseUrl: 'baseUrl'));
 }
