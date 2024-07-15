@@ -8,4 +8,6 @@ abstract class UserEntity {
     required this.balance,
     this.token,
   });
+
+  UserEntity copyWith({required double balance});
 }
