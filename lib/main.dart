@@ -7,9 +7,7 @@ import 'features/flutter_router_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  appInjection();
-  rechargeMobileInjection();
-  addBeneficiaryInjection();
+  _injection();
   runApp(const MyApp());
 }
 
@@ -26,7 +24,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: FlutterRouteManager.generateRoute,
-      initialRoute: ModuleRoutes.home,
+      initialRoute: ModuleRoutes.login,
     );
   }
+}
+
+void _injection() {
+  appInjection();
+  rechargeMobileInjection();
+  addBeneficiaryInjection();
 }

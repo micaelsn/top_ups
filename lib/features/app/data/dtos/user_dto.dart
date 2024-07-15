@@ -5,10 +5,16 @@ class UserDTO extends UserEntity {
     required super.name,
     required super.balance,
     super.token,
+    required super.transitions,
   });
 
   @override
   UserEntity copyWith({required double balance}) {
-    return UserDTO(balance: balance, name: name, token: token);
+    return UserDTO(
+      balance: balance,
+      name: name,
+      token: token,
+      transitions: transitions,
+    );
   }
 }

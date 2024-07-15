@@ -8,7 +8,7 @@ abstract class _Navigator {
 class ModuleNavigator implements _Navigator {
   @override
   Future<void> push(BuildContext context, String path, {dynamic arg}) async {
-    Navigator.of(context).pushNamed(path);
+    Navigator.of(context).pushNamed(path, arguments: arg);
   }
 
   @override
