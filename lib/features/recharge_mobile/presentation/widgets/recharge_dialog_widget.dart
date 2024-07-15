@@ -7,7 +7,7 @@ class RechargeDialogWidget extends StatelessWidget {
       {super.key, required this.topups, required this.onTap});
 
   final List<TopUpEntity> topups;
-  final void Function() onTap;
+  final void Function(TopUpEntity) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +17,14 @@ class RechargeDialogWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: topups
-              .map((topup) => _SelectValueWidget(
-                    title: '${topup.currency} ${topup.value.toString()}',
-                    onTap: onTap,
+              .map((topup) => InkWell(
+                    onTap: () => {
+                      Navigator.pop(context),
+                      onTap(topup),
+                    },
+                    child: _SelectValueWidget(
+                      title: '${topup.currency} ${topup.value.toString()}',
+                    ),
                   ))
               .toList(),
         ),
@@ -31,11 +36,9 @@ class RechargeDialogWidget extends StatelessWidget {
 class _SelectValueWidget extends StatelessWidget {
   const _SelectValueWidget({
     required this.title,
-    required this.onTap,
   });
 
   final String title;
-  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {

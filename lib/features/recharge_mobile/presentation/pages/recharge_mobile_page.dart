@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:top_ups/core/injection/injection.dart';
 import 'package:top_ups/core/module/module_navigator.dart';
+import 'package:top_ups/features/app/presentation/controllers/app_controller.dart';
 
 import '../../../flutter_router_manager.dart';
 import '../../data/dto/top_up_dto.dart';
@@ -22,9 +23,11 @@ class RechargeMobilePage extends StatefulWidget {
 
 class _RechargeMobilePageState extends State<RechargeMobilePage> {
   late RechargeMobileController controller;
+  late AppController appController;
   @override
   void initState() {
     controller = Injection().get<RechargeMobileController>();
+    appController = Injection().get<AppController>();
     super.initState();
     controller.init();
   }
@@ -48,6 +51,7 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
                 RechargeMobileStateSuccess(:final beneficiaries) =>
                   _ContentWidget(
                     beneficiaries: beneficiaries,
+                    appController: appController,
                   ),
                 _ => const SizedBox()
               }),
@@ -62,7 +66,11 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
 }
 
 class _ContentWidget extends StatelessWidget {
-  const _ContentWidget({required this.beneficiaries});
+  const _ContentWidget({
+    required this.beneficiaries,
+    required this.appController,
+  });
+  final AppController appController;
   final List<BeneficiaryEntity> beneficiaries;
 
   @override
@@ -83,17 +91,20 @@ class _ContentWidget extends StatelessWidget {
         TabViewWidget(
           tabs: [
             TabItem(
-                action: () {},
-                title: 'Recharge',
-                widget: ListContentWidget(
-                  listBeneficiaries: beneficiaries,
-                )),
+              action: () {},
+              title: 'Recharge',
+              widget: ListContentWidget(
+                listBeneficiaries: beneficiaries,
+                onTap: (value) {
+                  appController.rechargeMobile(value);
+                },
+              ),
+            ),
             TabItem(
-                action: () {},
-                title: 'History',
-                widget: ListContentWidget(
-                  listBeneficiaries: beneficiaries,
-                )),
+              action: () {},
+              title: 'History',
+              widget: const SizedBox(),
+            ),
           ],
         ),
       ],
@@ -102,8 +113,11 @@ class _ContentWidget extends StatelessWidget {
 }
 
 class ListContentWidget extends StatelessWidget {
-  ListContentWidget({super.key, required this.listBeneficiaries});
+  ListContentWidget(
+      {super.key, required this.listBeneficiaries, required this.onTap});
+
   final List<BeneficiaryEntity> listBeneficiaries;
+  final void Function(double) onTap;
   final topups = [
     TopUpDTO(currency: 'AED', value: 5),
     TopUpDTO(currency: 'AED', value: 10),
@@ -144,7 +158,9 @@ class ListContentWidget extends StatelessWidget {
                         context: context,
                         builder: (_) => RechargeDialogWidget(
                               topups: topups,
-                              onTap: () {},
+                              onTap: (topup) {
+                                onTap(topup.value);
+                              },
                             ));
                   },
                   beneficiary: beneficiary,
