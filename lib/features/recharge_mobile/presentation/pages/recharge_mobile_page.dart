@@ -3,6 +3,7 @@ import 'package:top_ups/core/injection/injection.dart';
 import 'package:top_ups/core/module/module_navigator.dart';
 import 'package:top_ups/features/app/presentation/controllers/app_controller.dart';
 
+import '../../../app/domain/entities/transition_entity.dart';
 import '../../../flutter_router_manager.dart';
 import '../../data/dto/top_up_dto.dart';
 import '../../domain/entities/beneficiary_entity.dart';
@@ -103,7 +104,13 @@ class _ContentWidget extends StatelessWidget {
             TabItem(
               action: () {},
               title: 'History',
-              widget: const SizedBox(),
+              widget: ValueListenableBuilder(
+                  valueListenable: appController.user,
+                  builder: (_, user, __) {
+                    return TransitionsListWidget(
+                      transitions: user.transitions,
+                    );
+                  }),
             ),
           ],
         ),
@@ -170,6 +177,61 @@ class ListContentWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class TransitionsListWidget extends StatelessWidget {
+  const TransitionsListWidget({super.key, required this.transitions});
+  final List<TransitionEntity> transitions;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: transitions
+          .map((transition) => _TransitionWidget(
+                type: transition.type,
+                value: transition.value.toString(),
+              ))
+          .toList(),
+    );
+  }
+}
+
+class _TransitionWidget extends StatelessWidget {
+  const _TransitionWidget({
+    required this.type,
+    required this.value,
+  });
+
+  final String type;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 5.0),
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(type,
+              style: const TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 16,
+                color: Colors.blueGrey,
+              )),
+          Text(value,
+              style: const TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 16,
+                color: Colors.blueGrey,
+              )),
+        ],
+      ),
     );
   }
 }
