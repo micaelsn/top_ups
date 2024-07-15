@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class _Navigator {
   Future<void> push(BuildContext context, String path);
+  Future<void> popUntil(BuildContext context, String path);
   Future<void> pop(BuildContext context);
 }
 
@@ -14,5 +15,10 @@ class ModuleNavigator implements _Navigator {
   @override
   Future<void> pop(BuildContext context) async {
     Navigator.of(context).pop();
+  }
+
+  @override
+  Future<void> popUntil(BuildContext context, String path) async {
+    Navigator.of(context).popUntil(ModalRoute.withName(path));
   }
 }

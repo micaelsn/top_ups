@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_ups/core/injection/injection.dart';
+import 'package:top_ups/features/flutter_router_manager.dart';
 
 import '../controllers/add_beneficiary_controller.dart';
 import '../widgets/button_widget.dart';
@@ -67,7 +68,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                 title: "Add",
                 isLoading: value,
                 onPressed: () async {
-                  final result = await controller.send();
+                  final result = await controller.add();
 
                   if (result) {
                     dialog(controller.nameController.text);
@@ -91,7 +92,11 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                   title: 'Close',
                   onPressed: () => {
                         Navigator.of(context).pop(),
-                        Navigator.of(ctx).pop(),
+                        Navigator.of(context).pop(),
+                        Navigator.of(context)
+                            .popAndPushNamed(ModuleRoutes.rechargeMobile),
+                        // ModuleNavigator()
+                        //     .popUntil(context, ModuleRoutes.rechargeMobile),
                       })
             ],
           );

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-// import '../../../../core/database/localstorage.dart';
-
 class AddBeneficiaryController {
-  // final LocalStorage localStorage;
-
-  // AddBeneficiaryController({required this.localStorage});
+  AddBeneficiaryController();
 
   static const int maxNickNameLength = 20;
   static const int maxPhoneLength = 11;
@@ -30,7 +26,7 @@ class AddBeneficiaryController {
     }
   }
 
-  Future<bool> send() async {
+  Future<bool> add() async {
     isSending.value = true;
     sendValidate(
       name: nameController.text,

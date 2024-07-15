@@ -33,6 +33,12 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],

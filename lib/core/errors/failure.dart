@@ -6,3 +6,7 @@ abstract class Failure {
 class ServerFailure extends Failure {
   const ServerFailure({String? message}) : super(message);
 }
+
+class AddFailure extends Failure {
+  const AddFailure({String? message}) : super(message);
+}

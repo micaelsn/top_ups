@@ -7,7 +7,7 @@ void addBeneficiaryInjection() {
 }
 
 void _controllers() {
-  Injection().registerSingleton<AddBeneficiaryController>(
-    AddBeneficiaryController(),
+  Injection().registerFactory<AddBeneficiaryController>(
+    () => AddBeneficiaryController(),
   );
 }
