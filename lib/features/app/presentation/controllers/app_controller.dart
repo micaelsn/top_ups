@@ -3,13 +3,23 @@ import 'package:flutter/material.dart';
 import '../../data/dtos/transition_dto.dart';
 import '../../data/dtos/user_dto.dart';
 import '../../domain/entities/user_entity.dart';
+import '../../domain/usecases/get_transitions_usecase.dart';
+import '../../domain/usecases/save_transitions_usecase.dart';
 
 class AppController {
+  final GetTransitionsUsecase getTransitionsUsecase;
+  final SaveTransitionsUsecase saveTransitionsUsecase;
+
   final ValueNotifier<UserEntity> _user = ValueNotifier(UserDTO(
     name: 'User',
     balance: 0,
     transitions: [],
   ));
+
+  AppController({
+    required this.getTransitionsUsecase,
+    required this.saveTransitionsUsecase,
+  });
 
   ValueNotifier<UserEntity> get user => _user;
   void setUser(UserEntity newUser) => _user.value = newUser;
@@ -19,6 +29,16 @@ class AppController {
   double transitionsAmountMonth(String id) => sumTransById(id);
   double get allTransitionsAmountMonth => sumTransMonth();
   double get userBalance => user.value.balance;
+
+  void init(UserEntity newUser) async {
+    final result = await getTransitionsUsecase();
+    result.fold(
+      (_) => _,
+      (r) => newUser.transitions.addAll(r),
+    );
+
+    setUser(newUser);
+  }
 
   double sumTransById(String id) {
     double sum = 0;
@@ -61,5 +81,6 @@ class AppController {
       date: DateTime.now(),
       idBeneficiary: id,
     ));
+    saveTransitionsUsecase(transitions: user.value.transitions);
   }
 }

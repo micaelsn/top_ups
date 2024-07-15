@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     controller = Injection().get<AppController>();
-    controller.setUser(widget.user);
+    controller.init(widget.user);
     super.initState();
   }
 
