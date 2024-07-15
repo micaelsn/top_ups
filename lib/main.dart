@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'features/add_beneficiary/add_beneficiary.dart';
 import 'features/recharge_mobile/recharge_mobile.dart';
 
@@ -7,7 +8,7 @@ import 'features/flutter_router_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  _injection();
+  _init();
   runApp(const MyApp());
 }
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-void _injection() {
+Future<void> _init() async {
+  await Hive.initFlutter();
   appInjection();
   rechargeMobileInjection();
   addBeneficiaryInjection();

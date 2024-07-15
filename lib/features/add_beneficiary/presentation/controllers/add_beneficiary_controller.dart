@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/features/recharge_mobile/data/dto/beneficiary_dto.dart';
 
-class AddBeneficiaryController {
-  AddBeneficiaryController();
+import '../../domain/usecases/add_beneficiaries_usecase.dart';
+import 'add_beneficiary_state.dart';
+
+class AddBeneficiaryController extends ValueNotifier<AddBeneficiaryState> {
+  AddBeneficiaryController({required this.addUseCase})
+      : super(AddBeneficiaryStateInitial());
+
+  final AddBeneficiariesUsecase addUseCase;
 
   static const int maxNickNameLength = 20;
   static const int maxPhoneLength = 11;
-  ValueNotifier<bool> isSending = ValueNotifier(false);
+  // ValueNotifier<bool> isSending = ValueNotifier(false);
 
   ValueNotifier<String?> nameError = ValueNotifier(null);
   ValueNotifier<String?> phoneError = ValueNotifier(null);
@@ -26,22 +33,24 @@ class AddBeneficiaryController {
     }
   }
 
-  Future<bool> add() async {
-    isSending.value = true;
+  Future<void> add() async {
+    value = AddBeneficiaryStateLoading();
     sendValidate(
       name: nameController.text,
       phone: phoneController.text,
     );
     if (fieldsIsValid) {
-      // await localStorage.insert('beneficiaries', {
-      //   'name': nameController.text,
-      //   'phone': phoneController.text,
-      // });
-      isSending.value = false;
-      return true;
+      final result = await addUseCase(BeneficiaryDTO(
+        id: '0',
+        name: nameController.text,
+        phone: phoneController.text,
+      ));
+      return result.fold((l) {
+        value = AddBeneficiaryStateError();
+      }, (r) {
+        value = AddBeneficiaryStateSuccess();
+      });
     }
-    isSending.value = false;
-    return false;
   }
 
   bool get fieldsIsValid => nameError.value == null && phoneError.value == null;

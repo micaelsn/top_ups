@@ -9,16 +9,20 @@ abstract class AddBeneficiariesRepository {
   Future<AddBeneficiaryResult> call(BeneficiaryEntity entity);
 }
 
-class ApiAddBeneficiariesRepository implements AddBeneficiariesRepository {
+class LocalStorageAddBeneficiariesRepository
+    implements AddBeneficiariesRepository {
   final LocalStorage localStorage;
-  ApiAddBeneficiariesRepository({
+  LocalStorageAddBeneficiariesRepository({
     required this.localStorage,
   });
   @override
   Future<AddBeneficiaryResult> call(BeneficiaryEntity entity) async {
     try {
-      await localStorage.insert(
-          'beneficiaries', (entity as BeneficiaryDTO).toMap());
+      final result = await localStorage.get('beneficiaries');
+      final list = result != null && result.isNotEmpty
+          ? [(entity as BeneficiaryDTO).toMap(), ...result]
+          : [(entity as BeneficiaryDTO).toMap()];
+      await localStorage.insert('beneficiaries', list);
       return AddBeneficiaryResult.right(true);
     } catch (error) {
       return AddBeneficiaryResult.left(
