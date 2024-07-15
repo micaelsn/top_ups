@@ -190,13 +190,16 @@ class TransitionsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: transitions
-          .map((transition) => _TransitionWidget(
-                type: transition.type,
-                value: transition.value.toString(),
-              ))
-          .toList(),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: transitions
+            .map((transition) => _TransitionWidget(
+                  type: transition.type,
+                  value: transition.value.toString(),
+                ))
+            .toList(),
+      ),
     );
   }
 }

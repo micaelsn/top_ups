@@ -43,7 +43,7 @@ class AppController {
   double sumTransById(String id) {
     double sum = 0;
     for (var trans in user.value.transitions) {
-      if (trans.idBeneficiary == id) {
+      if (trans.idBeneficiary == id && isThisMonth(trans.date)) {
         sum += trans.value;
       }
     }
@@ -53,9 +53,16 @@ class AppController {
   double sumTransMonth() {
     double sum = 0;
     for (var trans in user.value.transitions) {
-      sum += trans.value;
+      if (isThisMonth(trans.date)) {
+        sum += trans.value;
+      }
     }
     return sum;
+  }
+
+  bool isThisMonth(DateTime date) {
+    final today = DateTime.now();
+    return today.month == date.month && today.year == date.year;
   }
 
   void rechargeMobile(double recharge, String id) {

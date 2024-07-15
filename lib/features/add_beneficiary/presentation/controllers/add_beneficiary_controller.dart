@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:top_ups/core/injection/injection.dart';
 import 'package:top_ups/features/recharge_mobile/data/dto/beneficiary_dto.dart';
@@ -41,8 +43,9 @@ class AddBeneficiaryController extends ValueNotifier<AddBeneficiaryState> {
       phone: phoneController.text,
     );
     if (fieldsIsValid) {
+      var random = Random();
       final result = await addUseCase(BeneficiaryDTO(
-        id: '0',
+        id: random.nextInt(10000).toString(),
         name: nameController.text,
         phone: phoneController.text,
       ));
