@@ -19,9 +19,8 @@ class RechargeMobileController extends ValueNotifier<RechargeMobileState> {
     );
   }
 
-  Future<void> recharge(double amount) async {
-    value = RechargeMobileStateInitial();
-    final result = await rechargeUsecase(amount);
+  Future<void> recharge(double amount, String id) async {
+    final result = await rechargeUsecase(id, amount);
     result.fold(
       (l) => value = RechargeMobileStateError(),
       (_) => _,

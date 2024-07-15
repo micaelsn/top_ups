@@ -32,7 +32,7 @@ void main() {
       );
 
       // act
-      final result = await useCase(100);
+      final result = await useCase('1', 100.0);
 
       // assert
       expect(
@@ -52,12 +52,12 @@ void main() {
         when(() => controller.userBalance).thenAnswer(
           (_) => 4000.0,
         );
-        when(() => controller.transitionsAmountMonth).thenAnswer(
+        when(() => controller.transitionsAmountMonth('1')).thenAnswer(
           (_) => 100.0,
         );
 
         // act
-        final result = await useCase(100.0);
+        final result = await useCase('1', 100.0);
 
         // assert
         expect(
@@ -76,12 +76,12 @@ void main() {
         when(() => controller.userBalance).thenAnswer(
           (_) => 101.0,
         );
-        when(() => controller.transitionsAmountMonth).thenAnswer(
+        when(() => controller.transitionsAmountMonth('1')).thenAnswer(
           (_) => 100.0,
         );
 
         // act
-        final result = await useCase(100.0);
+        final result = await useCase('1', 100.0);
 
         // assert
         expect(
@@ -102,12 +102,12 @@ void main() {
         when(() => controller.userBalance).thenAnswer(
           (_) => 1000.0,
         );
-        when(() => controller.transitionsAmountMonth).thenAnswer(
+        when(() => controller.transitionsAmountMonth('1')).thenAnswer(
           (_) => 500.0,
         );
 
         // act
-        final result = await useCase(100.0);
+        final result = await useCase('1', 100.0);
 
         // assert
         expect(
@@ -128,12 +128,12 @@ void main() {
         when(() => controller.userBalance).thenAnswer(
           (_) => 4000.0,
         );
-        when(() => controller.transitionsAmountMonth).thenAnswer(
+        when(() => controller.transitionsAmountMonth('1')).thenAnswer(
           (_) => 100.0,
         );
 
         // act
-        final result = await useCase(100.0);
+        final result = await useCase('1', 100.0);
 
         // assert
         expect(
@@ -152,12 +152,12 @@ void main() {
         when(() => controller.userBalance).thenAnswer(
           (_) => 101.0,
         );
-        when(() => controller.transitionsAmountMonth).thenAnswer(
+        when(() => controller.transitionsAmountMonth('1')).thenAnswer(
           (_) => 100.0,
         );
 
         // act
-        final result = await useCase(100.0);
+        final result = await useCase('1', 100.0);
 
         // assert
         expect(
@@ -179,12 +179,12 @@ void main() {
         when(() => controller.userBalance).thenAnswer(
           (_) => 1100.0,
         );
-        when(() => controller.transitionsAmountMonth).thenAnswer(
+        when(() => controller.transitionsAmountMonth('1')).thenAnswer(
           (_) => 1000.0,
         );
 
         // act
-        final result = await useCase(100.0);
+        final result = await useCase('1', 100.0);
 
         // assert
         expect(

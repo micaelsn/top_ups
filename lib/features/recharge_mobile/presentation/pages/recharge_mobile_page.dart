@@ -99,8 +99,8 @@ class _ContentWidget extends StatelessWidget {
               title: 'Recharge',
               widget: ListContentWidget(
                 listBeneficiaries: beneficiaries,
-                onTap: (value) {
-                  controller.recharge(value);
+                onTap: (value, id) {
+                  controller.recharge(value, id);
                 },
               ),
             ),
@@ -127,7 +127,7 @@ class ListContentWidget extends StatelessWidget {
       {super.key, required this.listBeneficiaries, required this.onTap});
 
   final List<BeneficiaryEntity> listBeneficiaries;
-  final void Function(double) onTap;
+  final void Function(double, String) onTap;
   final topups = [
     TopUpDTO(currency: 'AED', value: 5),
     TopUpDTO(currency: 'AED', value: 10),
@@ -169,7 +169,7 @@ class ListContentWidget extends StatelessWidget {
                         builder: (_) => RechargeDialogWidget(
                               topups: topups,
                               onTap: (topup) {
-                                onTap(topup.value);
+                                onTap(topup.value, beneficiary.id);
                               },
                             ));
                   },

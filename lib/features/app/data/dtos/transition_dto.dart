@@ -5,5 +5,6 @@ class TransitionDTO extends TransitionEntity {
     required super.type,
     required super.value,
     required super.date,
+    required super.idBeneficiary,
   });
 }

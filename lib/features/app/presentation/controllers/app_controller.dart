@@ -16,11 +16,21 @@ class AppController {
 
   String get userName => user.value.name.isNotEmpty ? user.value.name : 'User';
   bool get userVerified => user.value.token != null;
-  double get transitionsAmountMonth => sumTrans();
-  double get allTransitionsAmountMonth => sumTrans();
+  double transitionsAmountMonth(String id) => sumTransById(id);
+  double get allTransitionsAmountMonth => sumTransMonth();
   double get userBalance => user.value.balance;
 
-  double sumTrans() {
+  double sumTransById(String id) {
+    double sum = 0;
+    for (var trans in user.value.transitions) {
+      if (trans.idBeneficiary == id) {
+        sum += trans.value;
+      }
+    }
+    return sum;
+  }
+
+  double sumTransMonth() {
     double sum = 0;
     for (var trans in user.value.transitions) {
       sum += trans.value;
@@ -28,8 +38,8 @@ class AppController {
     return sum;
   }
 
-  void rechargeMobile(double recharge) {
-    _createTransition('recharge', recharge);
+  void rechargeMobile(double recharge, String id) {
+    _createTransition('recharge', recharge, id);
     _transitionRate();
     _recharge(recharge);
   }
@@ -44,11 +54,12 @@ class AppController {
     user.value = user.value.copyWith(balance: newBalance);
   }
 
-  void _createTransition(String type, double value) {
+  void _createTransition(String type, double value, String id) {
     user.value.transitions.add(TransitionDTO(
       type: type,
       value: value,
       date: DateTime.now(),
+      idBeneficiary: id,
     ));
   }
 }

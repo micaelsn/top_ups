@@ -5,7 +5,7 @@ import '../../../app/presentation/controllers/app_controller.dart';
 import '../types/signatures.dart';
 
 abstract class RechargeUsecase {
-  Future<RechargeResult> call(double value);
+  Future<RechargeResult> call(String id, double value);
 }
 
 class AppRechargeUsecase implements RechargeUsecase {
@@ -14,7 +14,7 @@ class AppRechargeUsecase implements RechargeUsecase {
   });
   final AppController appController;
   @override
-  Future<RechargeResult> call(double value) async {
+  Future<RechargeResult> call(String id, double value) async {
     if (appController.allTransitionsAmountMonth ==
         userBeneficiariesLimiteTotalValue) {
       return RechargeResult.left(const RechargeFailure());
@@ -26,14 +26,15 @@ class AppRechargeUsecase implements RechargeUsecase {
 
     if (verified) {
       if (sufficientBalance &&
-          appController.transitionsAmountMonth < userVerifiedTotalValue) {
-        appController.rechargeMobile(value);
+          appController.transitionsAmountMonth(id) < userVerifiedTotalValue) {
+        appController.rechargeMobile(value, id);
         return RechargeResult.right(true);
       }
     } else {
       if (sufficientBalance &&
-          appController.transitionsAmountMonth < userNotVerifiedTotalValue) {
-        appController.rechargeMobile(value);
+          appController.transitionsAmountMonth(id) <
+              userNotVerifiedTotalValue) {
+        appController.rechargeMobile(value, id);
         return RechargeResult.right(true);
       }
     }

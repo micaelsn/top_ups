@@ -73,20 +73,20 @@ void main() {
         'change state to RechargeMobileStateError when calls recharge with error',
         () async {
       // arange
-      when(() => rechargeUsecase(any())).thenAnswer(
+      when(() => rechargeUsecase(any(), any())).thenAnswer(
         (_) => Future.value(
           RechargeResult.left(const RechargeFailure()),
         ),
       );
       // act
-      await sut.recharge(100);
+      await sut.recharge(100, '1');
 
       // assert
       expect(
         sut.value,
         isA<RechargeMobileStateError>(),
       );
-      verify(() => rechargeUsecase(any())).called(1);
+      verify(() => rechargeUsecase(any(), any())).called(1);
     });
   });
 }
