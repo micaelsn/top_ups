@@ -16,6 +16,17 @@ class AppController {
 
   String get userName => user.value.name.isNotEmpty ? user.value.name : 'User';
   bool get userVerified => user.value.token != null;
+  double get transitionsAmountMonth => sumTrans();
+  double get allTransitionsAmountMonth => sumTrans();
+  double get userBalance => user.value.balance;
+
+  double sumTrans() {
+    double sum = 0;
+    for (var trans in user.value.transitions) {
+      sum += trans.value;
+    }
+    return sum;
+  }
 
   void rechargeMobile(double recharge) {
     _createTransition('recharge', recharge);

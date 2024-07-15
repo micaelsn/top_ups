@@ -10,3 +10,7 @@ class ServerFailure extends Failure {
 class AddFailure extends Failure {
   const AddFailure({String? message}) : super(message);
 }
+
+class RechargeFailure extends Failure {
+  const RechargeFailure({String? message}) : super(message);
+}
