@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:top_ups/core/injection/injection.dart';
 import 'package:top_ups/features/recharge_mobile/data/dto/beneficiary_dto.dart';
+import 'package:top_ups/features/recharge_mobile/presentation/controllers/recharge_mobile_controller.dart';
 
 import '../../domain/usecases/add_beneficiaries_usecase.dart';
 import 'add_beneficiary_state.dart';
@@ -12,7 +14,6 @@ class AddBeneficiaryController extends ValueNotifier<AddBeneficiaryState> {
 
   static const int maxNickNameLength = 20;
   static const int maxPhoneLength = 11;
-  // ValueNotifier<bool> isSending = ValueNotifier(false);
 
   ValueNotifier<String?> nameError = ValueNotifier(null);
   ValueNotifier<String?> phoneError = ValueNotifier(null);
@@ -48,6 +49,7 @@ class AddBeneficiaryController extends ValueNotifier<AddBeneficiaryState> {
       return result.fold((l) {
         value = AddBeneficiaryStateError();
       }, (r) {
+        Injection().get<RechargeMobileController>().init();
         value = AddBeneficiaryStateSuccess();
       });
     }

@@ -1,6 +1,7 @@
 import 'package:top_ups/core/api/api_client.dart';
 import 'package:top_ups/core/injection/injection.dart';
 
+import '../../core/database/localstorage.dart';
 import 'data/data_source/get_beneficiaries_data_source.dart';
 import 'data/repositories/get_beneficiaries_repository.dart';
 import 'domain/usecases/get_beneficiaries_usecase.dart';
@@ -14,8 +15,11 @@ void rechargeMobileInjection() {
 }
 
 void _dataSources() {
-  Injection().registerFactory<GetBeneficiariesDataSource>(() =>
-      ApiGetBeneficiariesDataSource(apiClient: Injection().get<ApiClient>()));
+  Injection().registerFactory<GetBeneficiariesDataSource>(
+      () => ApiGetBeneficiariesDataSource(
+            apiClient: Injection().get<ApiClient>(),
+            localStorage: Injection().get<LocalStorage>(),
+          ));
 }
 
 void _repositories() {

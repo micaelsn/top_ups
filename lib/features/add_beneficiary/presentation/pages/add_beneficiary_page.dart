@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:top_ups/core/injection/injection.dart';
-import 'package:top_ups/features/flutter_router_manager.dart';
 
 import '../controllers/add_beneficiary_controller.dart';
 import '../controllers/add_beneficiary_state.dart';
@@ -19,11 +18,6 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
   @override
   void initState() {
     controller = Injection().get<AddBeneficiaryController>();
-    controller.addListener(() {
-      if (controller is AddBeneficiaryStateSuccess) {
-        dialog(controller.nameController.text);
-      }
-    });
     super.initState();
   }
 
@@ -43,8 +37,9 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
               AddBeneficiaryStateError() => const Center(
                   child: Text('Error, try agian'),
                 ),
-              AddBeneficiaryStateSuccess() => const Center(
-                  child: Text('Added with success'),
+              AddBeneficiaryStateSuccess() => Center(
+                  child: Text(
+                      'Added ${controller.nameController.text} with success'),
                 ),
               _ => _ContentWidget(
                   controller: controller,
@@ -68,29 +63,6 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
             }),
       ),
     );
-  }
-
-  dialog(String name) {
-    showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: Text("Added $name"),
-            actions: [
-              ButtonWidget(
-                  isLoading: false,
-                  title: 'Close',
-                  onPressed: () => {
-                        Navigator.of(context).pop(),
-                        Navigator.of(context).pop(),
-                        Navigator.of(context)
-                            .popAndPushNamed(ModuleRoutes.rechargeMobile),
-                        // ModuleNavigator()
-                        //     .popUntil(context, ModuleRoutes.rechargeMobile),
-                      })
-            ],
-          );
-        });
   }
 }
 

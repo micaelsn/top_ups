@@ -18,7 +18,8 @@ class ApiGetBeneficiariesRepository implements GetBeneficiariesRepository {
     try {
       final response = await dataSource();
       final result = (response?['data'] as List)
-          .map((item) => BeneficiaryDTO.fromMap(item))
+          .map(
+              (item) => BeneficiaryDTO.fromMap(Map<String, dynamic>.from(item)))
           .toList();
       return BeneficiaryResult.right(result);
     } catch (error) {
