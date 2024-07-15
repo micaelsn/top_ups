@@ -43,14 +43,18 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.blueGrey),
             ),
             const SizedBox(height: 8),
-            Text(
-              controller.userBalance,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 22,
-                  color: Colors.grey),
-            ),
+            ValueListenableBuilder(
+                valueListenable: controller.user,
+                builder: (_, user, __) {
+                  return Text(
+                    user.balance.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 22,
+                        color: Colors.grey),
+                  );
+                }),
             const SizedBox(height: 8),
             const Text(
               'Current Balance',
