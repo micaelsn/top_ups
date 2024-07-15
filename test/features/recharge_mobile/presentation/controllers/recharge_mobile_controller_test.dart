@@ -4,18 +4,26 @@ import 'package:top_ups/core/errors/failure.dart';
 import 'package:top_ups/features/recharge_mobile/data/dto/beneficiary_dto.dart';
 import 'package:top_ups/features/recharge_mobile/domain/types/signatures.dart';
 import 'package:top_ups/features/recharge_mobile/domain/usecases/get_beneficiaries_usecase.dart';
+import 'package:top_ups/features/recharge_mobile/domain/usecases/recharge_usecase.dart';
 import 'package:top_ups/features/recharge_mobile/presentation/controllers/recharge_mobile_controller.dart';
 import 'package:top_ups/features/recharge_mobile/presentation/controllers/recharge_mobile_state.dart';
 
 class MockBeneficiariesUsecase extends Mock implements BeneficiariesUsecase {}
 
+class MockRechargeUsecase extends Mock implements RechargeUsecase {}
+
 void main() {
   late RechargeMobileController sut;
   late BeneficiariesUsecase useCase;
+  late RechargeUsecase rechargeUsecase;
 
   setUp(() {
     useCase = MockBeneficiariesUsecase();
-    sut = RechargeMobileController(useCase);
+    rechargeUsecase = MockRechargeUsecase();
+    sut = RechargeMobileController(
+      useCase,
+      rechargeUsecase,
+    );
   });
 
   group(RechargeMobileController, () {
@@ -59,6 +67,26 @@ void main() {
         isA<RechargeMobileStateError>(),
       );
       verify(() => useCase()).called(1);
+    });
+
+    test(
+        'change state to RechargeMobileStateError when calls recharge with error',
+        () async {
+      // arange
+      when(() => rechargeUsecase(any())).thenAnswer(
+        (_) => Future.value(
+          RechargeResult.left(const RechargeFailure()),
+        ),
+      );
+      // act
+      await sut.recharge(100);
+
+      // assert
+      expect(
+        sut.value,
+        isA<RechargeMobileStateError>(),
+      );
+      verify(() => rechargeUsecase(any())).called(1);
     });
   });
 }

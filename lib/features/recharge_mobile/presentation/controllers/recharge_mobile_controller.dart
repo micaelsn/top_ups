@@ -1,11 +1,14 @@
 import 'package:flutter/foundation.dart';
 
 import '../../domain/usecases/get_beneficiaries_usecase.dart';
+import '../../domain/usecases/recharge_usecase.dart';
 import 'recharge_mobile_state.dart';
 
 class RechargeMobileController extends ValueNotifier<RechargeMobileState> {
-  RechargeMobileController(this.usecase) : super(RechargeMobileStateInitial());
+  RechargeMobileController(this.usecase, this.rechargeUsecase)
+      : super(RechargeMobileStateInitial());
   final BeneficiariesUsecase usecase;
+  final RechargeUsecase rechargeUsecase;
 
   Future<void> init() async {
     value = RechargeMobileStateInitial();
@@ -13,6 +16,15 @@ class RechargeMobileController extends ValueNotifier<RechargeMobileState> {
     result.fold(
       (l) => value = RechargeMobileStateError(),
       (r) => value = RechargeMobileStateSuccess(r),
+    );
+  }
+
+  Future<void> recharge(double amount) async {
+    value = RechargeMobileStateInitial();
+    final result = await rechargeUsecase(amount);
+    result.fold(
+      (l) => value = RechargeMobileStateError(),
+      (_) => _,
     );
   }
 }

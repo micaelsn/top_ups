@@ -53,6 +53,7 @@ class _RechargeMobilePageState extends State<RechargeMobilePage> {
                   _ContentWidget(
                     beneficiaries: beneficiaries,
                     appController: appController,
+                    controller: controller,
                   ),
                 _ => const SizedBox()
               }),
@@ -70,8 +71,10 @@ class _ContentWidget extends StatelessWidget {
   const _ContentWidget({
     required this.beneficiaries,
     required this.appController,
+    required this.controller,
   });
   final AppController appController;
+  final RechargeMobileController controller;
   final List<BeneficiaryEntity> beneficiaries;
 
   @override
@@ -97,7 +100,7 @@ class _ContentWidget extends StatelessWidget {
               widget: ListContentWidget(
                 listBeneficiaries: beneficiaries,
                 onTap: (value) {
-                  appController.rechargeMobile(value);
+                  controller.recharge(value);
                 },
               ),
             ),
