@@ -23,12 +23,12 @@ class AddBeneficiaryController extends ValueNotifier<AddBeneficiaryState> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
-  static const String errorMessage = "This field is required.";
+  static const String errorMessage = "This field is invalid.";
 
   sendValidate({String? name, String? phone}) {
     if (name != null) {
       nameError.value =
-          name.isEmpty && name.length < maxNickNameLength ? errorMessage : null;
+          name.isEmpty || name.length > maxNickNameLength ? errorMessage : null;
     }
     if (phone != null) {
       phoneError.value =

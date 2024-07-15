@@ -15,7 +15,7 @@ class AppRechargeUsecase implements RechargeUsecase {
   final AppController appController;
   @override
   Future<RechargeResult> call(String id, double value) async {
-    if (appController.allTransitionsAmountMonth ==
+    if ((appController.allTransitionsAmountMonth + value) >
         userBeneficiariesLimiteTotalValue) {
       return RechargeResult.left(const RechargeFailure());
     }
@@ -26,13 +26,14 @@ class AppRechargeUsecase implements RechargeUsecase {
 
     if (verified) {
       if (sufficientBalance &&
-          appController.transitionsAmountMonth(id) < userVerifiedTotalValue) {
+          (appController.transitionsAmountMonth(id) + value) <=
+              userVerifiedTotalValue) {
         appController.rechargeMobile(value, id);
         return RechargeResult.right(true);
       }
     } else {
       if (sufficientBalance &&
-          appController.transitionsAmountMonth(id) <
+          (appController.transitionsAmountMonth(id) + value) <=
               userNotVerifiedTotalValue) {
         appController.rechargeMobile(value, id);
         return RechargeResult.right(true);
